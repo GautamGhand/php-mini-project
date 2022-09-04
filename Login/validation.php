@@ -40,5 +40,17 @@
             }
             return $_SESSION['error'];
         }
+        function validateEmailExists($email)
+        {
+            foreach($_SESSION['User'] as $key=>$values)
+            {
+                if($email==$values['email'])
+                {
+                    $_SESSION['error']['email']="Email Already Exists";
+                    break;
+                }                
+            }
+            return $_SESSION['error'];
+        }
 ?>
 

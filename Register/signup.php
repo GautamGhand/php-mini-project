@@ -7,13 +7,6 @@ if(isset($_SESSION['logindetail']))
         header('location:../User/users_data.php');
     }
 }
-if(isset($_GET['id']))
-{
-    if(isset(($_SESSION['logindetail'])))
-    {
-        $_SESSION['logindetail']=false;
-    }
-}
 include('register.php');
 ?>
 

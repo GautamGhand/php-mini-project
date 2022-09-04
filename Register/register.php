@@ -7,6 +7,7 @@ if(!empty($_POST['submit']))
     $error['error'] = validateName($_POST['fname'],'fname');
     $error['error'] = validateName($_POST['lname'],'lname');
     $error['error']=validateEmail($_POST['email'],$_POST['password']);
+    $error['error']=validateEmailExists($_POST['email']);
 
     if(!empty($error['error']))
     {
