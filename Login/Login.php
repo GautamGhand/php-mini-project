@@ -1,30 +1,34 @@
 <?php 
 session_start();
 include('validation.php');
-if(isset($_SESSION['logindetail']))
+if(pageblock())
 {
-    if($_SESSION['logindetail']==true)
-    {
-        header('location:../User/users_data.php');
-    }
+    header('location:../User/users_data.php');
 }
-
 if(isset($_POST['submit']))
 {
-    $_SESSION['error']=[];
-    $error =[];
+    
+    
+    $ex=[];
     global $flag;
     $flag=0;
-    $error['error']=validateEmail($_POST['email'],$_POST['password']);
+    $ex['error']=validateEmail($_POST['email'],$_POST['password']);
+    
 
-    if(!empty($error['error']))
+    if(!empty($ex['error']))
     {
-        $_SESSION['error']=$error['error'];
+        $_SESSION['error']=$ex['error'];
+       
         header('location:Login.php');
         
     }
     else
     {
+        if(!empty($ex['error']))
+        {
+            unset($_SESSION['error']);
+            
+        }
         global $flag;
         $username=$_POST['email'];
         $password=$_POST['password'];
@@ -32,21 +36,22 @@ if(isset($_POST['submit']))
         {
             if($username==$values['email'] && $password==$values['password'])
             {
-                $flag=1;
+                $_SESSION['logindetail']=true;
+                $_SESSION['logintime']=time();
+                header('location:../User/users_data.php');
                 $_SESSION['uname']=$values['fname'];
                 break;
             }
+            else
+            {
+                $flag=0;
+            }
         }
-        if($flag==1)
+        if($flag==0)
         {
-            $_SESSION['logindetail']=true;
-            $_SESSION['logintime']=time();
-            header('location:../User/users_data.php');
+                echo "Login failed";
         }
-        else
-        {
-            echo "<h1 style=\"text-align:center;\">Login Failed</h1>";
-        }    
+        
     }
 }
 ?>
@@ -62,7 +67,7 @@ if(isset($_POST['submit']))
 <body>
     <section class="container">
 <section class="frm">
-    <form action="Login.php" method="POST">
+    <form action="Login.php" method="post">
         <label class="txt">USERNAME</label>
         <input type="email" name="email" class="inpt"><br>
         <div class="error">
@@ -85,9 +90,9 @@ if(isset($_POST['submit']))
                      if(isset($_SESSION['error']['password']))
                      {
                      echo $_SESSION['error']['password'];
-                     }
+                    }
+
                  }
-                //  unset($_SESSION['error']);
             ?>
         </div>
         <input type="submit" name="submit" class="btn">

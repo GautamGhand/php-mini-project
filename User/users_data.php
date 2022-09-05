@@ -1,12 +1,10 @@
 <?php 
 session_start();
-   if(isset($_SESSION['logindetail']))
-   {
-   if(($_SESSION['logindetail'])==false)
-   {
-       header('location:../User/Login.php');
-   }
-   }
+include('../Login/validation.php');
+ if(pageblock()==false)
+ {
+    header('location:../Register/signup.php');
+ }
    ?>
 <!DOCTYPE html>
 <html>
@@ -25,7 +23,7 @@ session_start();
         <th>EDIT</th>
         <th>DELETE</th>
         <nav>
-        <h2 class="heading">WELCOME <?php echo $_SESSION['uname']?></h2>
+        <h2 class="heading">WELCOME <?php echo strtoupper($_SESSION['uname'])?></h2>
         <h2 class="heading">LAST LOGIN TIME<?php echo $_SESSION['logintime']?></h2>
         <a href="logout.php" class="link logout">LOGOUT</a>
         </nav>

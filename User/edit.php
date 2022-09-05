@@ -14,14 +14,16 @@
     foreach ($_SESSION['User'] as $key => $values) {
         global $id;
         $val = [];
-        if ($id == $_SESSION['User'][$key]['id']) {
+        if ($id == $values['id']) {
             $val = $_SESSION['User'][$key];
         }
     }
     if (!empty($_POST['submit'])) {
         $id = (int) filter_var($_POST['submit'], FILTER_SANITIZE_NUMBER_INT);
-        foreach ($_SESSION['User'] as $key => $values) {
-            if ($_SESSION['User'][$key]['id'] == $id) {
+        foreach ($_SESSION['User'] as $key => $values) 
+        {
+            if ($values['id']== $id) 
+            {
                 $_SESSION['User'][$key] = $_POST;
                 $_SESSION['User'][$key]['id'] = $id;
                 header('location:users_data.php');

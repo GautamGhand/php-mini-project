@@ -1,56 +1,73 @@
 
 <?php
+global $error;
+$error=[];
+function pageblock()
+{
+    if(isset($_SESSION['logindetail']))
+    {
+        if($_SESSION['logindetail']==true)
+        {
+        return true;
+        }
+        else
+        {
+        return false;
+        }
+    }
+}
     function validateName($name,$key)
         {
+            global $error;
             if(is_numeric($name) || preg_match('/[^a-z_+-0-9]/i',$name))
             {       
-                $_SESSION['error'][$key]="Please Enter Correct Name";
+                $error[$key]="Please Enter Correct Name";
             }
             for($i=0;$i<strlen($name);$i++)
             {
                 if($name[$i]==" ")
                 {
-                    $_SESSION['error'][$key]="Please Don't Enter space in Name";
+                    $error[$key]="Please Don't Enter space in Name";
                     break;
                 }
             }
             if(empty($name))
             {
-                $_SESSION['error'][$key]="Name is Required";
+                $error[$key]="Name is Required";
             }
-            return $_SESSION['error'];
+            return $error;
 
         }
         function validateEmail($email,$password)
         {
+            global $error;
             if(empty($email))
             {
-                $_SESSION['error']['email'] = "Email is required";
+                $error['email'] = "Email is required";
             }
-            else
-            {
-                if(!filter_var($email, FILTER_VALIDATE_EMAIL))
-                {
-                    $_SESSION['error']['email']="please enter valid email";
-                }
-            }
+            // if(filter_var($email, FILTER_VALIDATE_EMAIL))
+            // {
+            //         $error['email']="please enter valid email";
+            // }
             if(empty($password))
             {
-                $_SESSION['error']['password']="Password is required";
+                $error['password']="Password is required";
             }
-            return $_SESSION['error'];
+            return $error;
         }
+
         function validateEmailExists($email)
         {
+            global $error;
             foreach($_SESSION['User'] as $key=>$values)
             {
                 if($email==$values['email'])
                 {
-                    $_SESSION['error']['email']="Email Already Exists";
+                    $error['email']="Email Already Exists";
                     break;
                 }                
             }
-            return $_SESSION['error'];
+            return $error;
         }
 ?>
 

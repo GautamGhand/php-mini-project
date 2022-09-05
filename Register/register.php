@@ -1,17 +1,21 @@
 <?php 
 include('../Login/validation.php');
+if(pageblock()==true)
+{
+    header('location:../User/users_data.php');
+}
 if(!empty($_POST['submit']))
 {
     session_start();
-    $error=[];
-    $error['error'] = validateName($_POST['fname'],'fname');
-    $error['error'] = validateName($_POST['lname'],'lname');
-    $error['error']=validateEmail($_POST['email'],$_POST['password']);
-    $error['error']=validateEmailExists($_POST['email']);
+$ex=[];
+    $ex['error'] = validateName($_POST['fname'],'fname');
+    $ex['error'] = validateName($_POST['lname'],'lname');
+    $ex['error']=validateEmail($_POST['email'],$_POST['password']);
+    $ex['error']=validateEmailExists($_POST['email']);
 
-    if(!empty($error['error']))
+    if(!empty($ex['error']))
     {
-        $_SESSION['error']=$error['error'];
+        $_SESSION['error']=$ex['error'];
         header('location:signup.php');
         
     }
